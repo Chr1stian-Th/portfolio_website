@@ -1,0 +1,46 @@
+/* ============================================================================
+ *  Global stylesheet
+ *  Tailwind layers + a small amount of base CSS.
+ *  Component-level styling lives inline on each component (it reads the CSS
+ *  custom properties set by `App.jsx` from `theme.js`).
+ * ============================================================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg, #14130f);
+  color: var(--fg, #e8e2d4);
+}
+
+/* IDE-style scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-strong);
+}
+
+/* Selection color picks up the accent */
+::selection {
+  background-color: var(--accent);
+  color: #fff;
+}
