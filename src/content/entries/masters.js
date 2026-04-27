@@ -6,7 +6,7 @@ export default {
   folder: 'education',
   order: 1,
   icon: 'graduation',
-  name: { en: "Master's", de: 'Master' },
+  name: { en: "Master", de: 'Master' },
   content: {
     en: `# Master's Degree
 

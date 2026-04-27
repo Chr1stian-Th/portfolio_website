@@ -15,8 +15,8 @@ import TreeNode from './TreeNode.jsx';
 // ─────────────────────────────────────────────────────────────────────────────
 //  Edit these to point at your own profiles.
 // ─────────────────────────────────────────────────────────────────────────────
-const GITHUB_URL   = 'https://github.com';
-const LINKEDIN_URL = 'https://linkedin.com';
+const GITHUB_URL   = 'https://github.com/Chr1stian-Th';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/christian-thimm-190397341/';
 
 export default function Sidebar({
   tree, lang, expanded, toggleFolder, openFile, activeId,

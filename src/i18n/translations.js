@@ -25,7 +25,7 @@ export const i18n = {
     welcome:         'Welcome',
     noTabsTitle:     'Nothing open',
     noTabsHint:      'Pick a file from the sidebar to begin.',
-    portfolio:       'portfolio',
+    portfolio:       'nichtlustig-christian',
     words:           'words',
     folderCount:     (n) => `${n} folder${n === 1 ? '' : 's'}`,
     fileCount:       (n) => `${n} file${n === 1 ? '' : 's'}`,
