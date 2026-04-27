@@ -9,6 +9,7 @@ import React from 'react';
 import {
   Sparkles, Github, Linkedin, Sun, Moon,
   Settings as SettingsIcon, FolderTree,
+  Bookmark,
 } from 'lucide-react';
 import TreeNode from './TreeNode.jsx';
 
@@ -40,7 +41,7 @@ export default function Sidebar({
           className="flex h-6 w-6 items-center justify-center rounded"
           style={{ backgroundColor: 'var(--accent)' }}
         >
-          <Sparkles size={13} style={{ color: 'var(--sidebar-bg)' }} />
+          <Bookmark size={13} style={{ color: 'var(--sidebar-bg)' }} />
         </div>
         <div
           className="text-[12px] font-medium uppercase tracking-wider"
