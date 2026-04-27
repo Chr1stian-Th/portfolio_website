@@ -141,12 +141,13 @@ export default function Markdown({ text }) {
                 <li
                   key={`${k}-${j}`}
                   className="relative pl-5 leading-relaxed"
+                  style={{ marginLeft: `${it.depth * 1.25}rem` }}
                 >
                   <span
                     className="absolute left-0 top-[0.7em] h-1 w-1 rounded-full"
                     style={{ backgroundColor: 'var(--accent)' }}
                   />
-                  {parseInline(it, `${k}-${j}`)}
+                  {parseInline(it.text, `${k}-${j}`)}
                 </li>
               ))}
             </ul>

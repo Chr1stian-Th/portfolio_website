@@ -58,11 +58,22 @@ export function parseBlocks(text) {
       continue;
     }
 
-    // Unordered list
-    if (/^[-*]\s+/.test(line)) {
+    // Unordered list (supports indentation)
+    if (/^\s*[-*]\s+/.test(line)) {
       const items = [];
-      while (i < lines.length && /^[-*]\s+/.test(lines[i])) {
-        items.push(lines[i].replace(/^[-*]\s+/, '')); i++;
+
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
+        const m = lines[i].match(/^(\s*)[-*]\s+(.*)$/);
+
+        const indent = m[1].length;
+        const depth = Math.floor(indent / 2); // assume 2 spaces per level
+
+        items.push({
+          text: m[2],
+          depth
+        });
+
+        i++;
       }
       out.push({ kind: 'ul', items });
       continue;
@@ -73,7 +84,7 @@ export function parseBlocks(text) {
     while (
       i < lines.length &&
       lines[i].trim() !== '' &&
-      !/^(#{1,4}\s|>|-{3,}$|[-*]\s|```)/.test(lines[i])
+      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```)/.test(lines[i])
     ) {
       buf.push(lines[i]); i++;
     }
