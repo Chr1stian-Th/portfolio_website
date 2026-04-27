@@ -15,6 +15,8 @@ import {
   User,
   Briefcase,
   BookOpen,
+  Search,
+  Wrench,
 } from 'lucide-react';
 
 export const iconMap = {
@@ -27,4 +29,6 @@ export const iconMap = {
   user:       User,
   briefcase:  Briefcase,
   book:       BookOpen,
+  search:     Search,
+  wrench:     Wrench,
 };

@@ -1,18 +1,18 @@
 /**
- * Bierturnier project page.
+ * Findme project page.
  */
 export default {
-  id: 'bierturnier',
+  id: 'findme',
   folder: 'projects',
   order: 1,
-  icon: 'beer',
-  name: { en: 'Bierturnier', de: 'Bierturnier' },
+  icon: 'search',
+  name: { en: 'Findme', de: 'Findme' },
   content: {
-    en: `# Bierturnier
+    en: `# Findme
 
 *This page is intentionally blank — drop your project notes here.*
 `,
-    de: `# Bierturnier
+    de: `# Findme
 
 *Diese Seite ist absichtlich leer — schreibe deine Projektnotizen hier rein.*
 `,

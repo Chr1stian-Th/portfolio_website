@@ -45,11 +45,8 @@ function formatTree(nodes, depth, lang) {
     const children = node.children
       ? formatTree(node.children, depth + 1, lang)
       : [];
-
-    // Add blank line between siblings
-    const separator = index > 0 ? [''] : [];
-
-    return [...separator, line, ...children];
+      
+    return [line, ...children];
   });
 }
 
@@ -64,6 +61,10 @@ export function generateReadme(tree, lang) {
     '',
     t.readmeIntro,
     '',
+    `## ${t.aboutThisSite}`,
+    '',
+    t.readmeAbout,
+    '',
     `## ${t.quickFacts}`,
     '',
     `- ${t.folderCount(folders)}`,
@@ -72,10 +73,6 @@ export function generateReadme(tree, lang) {
     `## ${t.structure}`,
     '',
     ...structureLines,
-    '',
-    `## ${t.aboutThisSite}`,
-    '',
-    t.readmeAbout,
     '',
   ].join('\n');
 }

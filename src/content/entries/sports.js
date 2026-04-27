@@ -10,38 +10,35 @@ export default {
   content: {
     en: `# Sports
 
-Movement matters to me. Here's what I'm into.
+I love sports and staying active.
+I regularly play handball, beach volleyball, and spend time at the gym.
+I also enjoy cycling and hiking, and I am generally always up for any kind of physical activity.
 
 ## Currently doing
 
-- **[Sport 1]** — a sentence about why you love it.
-- **[Sport 2]** — same.
+- Handball
+- Beachvolleyball
+- Gym
 
 ## Want to try
 
-- …
-
-## Personal best moments
-
-A small story or two — a race, a climb, a game, a long walk.
+- One day, I would especially like to go hiking in the Himalayas and experience the mountains there.
 `,
     de: `# Sport
 
-Bewegung ist mir wichtig. Hier ist, was ich mache.
+Ich liebe Sport und bin gerne aktiv. 
+Ich spiele regelmäßig Handball, Beachvolleyball und gehe ins Fitnessstudio.
+Außerdem fahre ich gerne Fahrrad und gehe wandern und grundsätzlich bin ich immer für jede Art von körperlicher Aktivität zu haben.
 
 ## Aktuell
 
-- **[Sportart 1]** — ein Satz, warum du sie liebst.
-- **[Sportart 2]** — dito.
+- Handball
+- Beachvolleyball
+- Gym
 
 ## Will ich ausprobieren
 
-- …
-
-## Persönliche Highlights
-
-Eine kleine Geschichte oder zwei — ein Rennen, eine Tour, ein Spiel, ein
-langer Spaziergang.
+- Ein besonderes Ziel von mir ist es, irgendwann einmal im Himalaya wandern zu gehen.
 `,
   },
 };
