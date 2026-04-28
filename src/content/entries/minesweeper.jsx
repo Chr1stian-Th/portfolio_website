@@ -273,11 +273,32 @@ function MinesweeperPage({ lang, theme, accent }) {
     setTime(0);
   };
 
-  // Left click — reveal
+  // Left click — reveal, or chord if already revealed
   const handleLeft = useCallback((r, c) => {
     if (status === "won" || status === "lost") return;
     const cell = grid[r][c];
-    if (cell.revealed || cell.flagged || cell.question) return;
+
+    if (cell.revealed) {
+      if (status !== "playing" || cell.count === 0) return;
+      const ns = getNeighbors(rows, cols, r, c);
+      const flagged = ns.filter(([nr, nc]) => grid[nr][nc].flagged).length;
+      if (flagged !== cell.count) return;
+
+      let g = grid.map(row => row.map(c => ({ ...c })));
+      let hitMine = false, hitR = -1, hitC = -1;
+      for (const [nr, nc] of ns) {
+        const n = g[nr][nc];
+        if (!n.revealed && !n.flagged) {
+          if (n.mine) { hitMine = true; hitR = nr; hitC = nc; }
+          else g = floodReveal(g, rows, cols, nr, nc);
+        }
+      }
+      if (hitMine) { setGrid(revealAllMines(g, hitR, hitC)); setStatus("lost"); }
+      else { setGrid(g); if (isWon(g)) setStatus("won"); }
+      return;
+    }
+
+    if (cell.flagged || cell.question) return;
 
     let g = grid;
 
@@ -543,7 +564,7 @@ function MinesweeperPage({ lang, theme, accent }) {
         userSelect: "none",
         letterSpacing: "0.04em",
       }}>
-        LMB reveal · RMB flag/? · MMB chord (auto-reveal when flags match)
+        LMB reveal/chord · RMB flag/? · MMB chord (auto-reveal when flags match)
       </div>
     </div>
   );
