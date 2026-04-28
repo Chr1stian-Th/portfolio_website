@@ -47,7 +47,7 @@ studiert.
 
 Meine zweite Station in der Hochschulausbildung führte mich nach Ulm, wo ich meinen Master 
 absolvierte. Neben dem akademischen Lehrplan war Ulm vor allem ein Ort, an dem ich neue 
-Freundschaften geschlossen, an gemeinsamen spaßigen Projekten gearbeitet habe und mich so weiterentwickelt konnte. In diese Zeit fiel auch der rasante Aufstieg LLMs,
+Freundschaften geschlossen, an gemeinsamen spaßigen Projekten gearbeitet habe und mich so weiterentwickeln konnte. In diese Zeit fiel auch der rasante Aufstieg LLMs,
 was mein Interesse weckte: Was macht sie so leistungsfähig, und wie kann ich 
 sie für meine eigene Arbeit nutzen? Das Studium selbst bot mir einen breiten und wertvollen 
 Überblick über verschiedene Themengebiete. Von Embedded Security und Kryptologie über agile 
