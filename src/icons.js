@@ -18,6 +18,7 @@ import {
   Search,
   Wrench,
   Terminal,
+  Bomb,
 } from 'lucide-react';
 
 export const iconMap = {
@@ -33,4 +34,5 @@ export const iconMap = {
   search:     Search,
   wrench:     Wrench,
   terminal:   Terminal,
+  bomb:       Bomb,
 };

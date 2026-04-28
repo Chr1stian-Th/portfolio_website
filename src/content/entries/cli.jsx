@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { accents } from '../../styles/theme.js';
 
 // =====================================================================
 //   nichtlustig CLI — interactive terminal page
@@ -370,8 +371,9 @@ function HelpOutput({ palette }) {
 }
 
 // ─── Main page ───────────────────────────────────────────────────────
-function CliPage({ lang, theme }) {
+function CliPage({ lang, theme, accent }) {
   const isDark = theme !== 'light';
+  const accentColor = accents[accent]?.[isDark ? 'dark' : 'light'] ?? (isDark ? '#79c0ff' : '#0969da');
 
   const palette = isDark ? {
     bg:           '#0d1117',
@@ -384,7 +386,7 @@ function CliPage({ lang, theme }) {
     prompt_user:  '#7ee787',
     prompt_host:  '#79c0ff',
     prompt_path:  '#d2a8ff',
-    accent:       '#79c0ff',
+    accent:       accentColor,
     error:        '#f85149',
     warn:         '#e3b341',
     success:      '#7ee787',
@@ -403,7 +405,7 @@ function CliPage({ lang, theme }) {
     prompt_user:  '#1a7f37',
     prompt_host:  '#0969da',
     prompt_path:  '#8250df',
-    accent:       '#0969da',
+    accent:       accentColor,
     error:        '#cf222e',
     warn:         '#9a6700',
     success:      '#1a7f37',

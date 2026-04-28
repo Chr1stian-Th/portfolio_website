@@ -128,7 +128,7 @@ export default function App() {
         <div className="flex-1 overflow-hidden">
           {openTabs.length === 0
             ? <WelcomeScreen t={t} />
-            : <ContentView tree={tree} activeId={activeId} lang={lang} theme={theme} />
+            : <ContentView tree={tree} activeId={activeId} lang={lang} theme={theme} accent={accent} />
           }
         </div>
         <StatusBar

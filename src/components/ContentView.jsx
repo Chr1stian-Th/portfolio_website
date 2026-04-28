@@ -8,7 +8,7 @@ import Markdown from './Markdown.jsx';
 import { findNode } from '../lib/tree.js';
 import { generateReadme } from '../lib/readme.js';
 
-export default function ContentView({ tree, activeId, lang, theme }) {
+export default function ContentView({ tree, activeId, lang, theme, accent }) {
   if (!activeId) return null;
   const node = findNode(tree, activeId);
   if (!node) return null;
@@ -17,7 +17,7 @@ export default function ContentView({ tree, activeId, lang, theme }) {
     const Component = node.component;
     return (
       <div className="h-full overflow-y-auto" style={{ backgroundColor: 'var(--bg)' }}>
-        <Component lang={lang} theme={theme} />
+        <Component lang={lang} theme={theme} accent={accent} />
       </div>
     );
   }
