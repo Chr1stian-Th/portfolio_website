@@ -9,7 +9,7 @@ export default {
   iconColor: '#e86100',
   name: { en: 'Findme', de: 'Findme' },
   content: {
-    en: `# Findme ![](public/images/findme.png)
+    en: `# Findme ![](/images/findme.png)
 This project is not hosted anymore due to security vulnerabilites that require updating next-js which breaks the build process :/
 It was coded together with friends, as a fun side project.
 
@@ -63,7 +63,7 @@ straightforward to update lineups or add stages without touching application log
 The project structure is also laid out to accommodate future additions like push 
 notifications or friend tracking without requiring architectural changes.
 `,
-    de: `# Findme ![](public/images/findme.png)
+    de: `# Findme ![](/images/findme.png)
 Dieses Projekt wird aufgrund von Sicherheitslücken, die ein Update von next-js erfordern, nicht mehr gehostet, da ein Update den Build-Prozess stört :/
 Das Projekt wurde zusammen mit Freunden als spaßiges Nebenprojekt gecodet.
 

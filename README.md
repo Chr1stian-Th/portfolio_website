@@ -38,6 +38,10 @@ portfolio/
 ├── vite.config.js
 ├── tailwind.config.js
 ├── postcss.config.js
+├── public/                         # static assets served as-is
+│   ├── cv.pdf
+│   ├── folder-bookmark.svg
+│   └── images/                     # all site images
 └── src/
     ├── main.jsx                    # React bootstrap
     ├── App.jsx                     # top-level state + layout
@@ -58,10 +62,13 @@ portfolio/
     │   ├── index.js                # auto-discovers entries → builds the tree
     │   └── entries/                # one file per page
     │       ├── readme.js           # dynamic, generated from the tree
-    │       ├── bierturnier.js
-    │       ├── masters.js
-    │       ├── bachelors.js
     │       ├── about.js
+    │       ├── bachelors.js
+    │       ├── bierturnier.js
+    │       ├── cli.jsx             # interactive CLI demo (React)
+    │       ├── findme.js           # contact / find-me page
+    │       ├── masters.js
+    │       ├── minesweeper.jsx     # playable minesweeper (React)
     │       └── sports.js
     │
     ├── i18n/
