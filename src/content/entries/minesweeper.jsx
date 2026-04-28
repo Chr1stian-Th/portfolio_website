@@ -564,8 +564,9 @@ function MinesweeperPage({ lang, theme, accent }) {
         userSelect: "none",
         letterSpacing: "0.04em",
       }}>
-        LMB reveal/chord · RMB flag/? · MMB chord (auto-reveal when flags match)
-      </div>
+      <span style={{ color: accentColor }}>LMB</span> reveal/chord ·{' '}
+      <span style={{ color: accentColor }}>RMB</span> flag/? ·{' '}
+      <span style={{ color: accentColor }}>MMB</span> chord (auto-reveal when flags match)      </div>
     </div>
   );
 }
