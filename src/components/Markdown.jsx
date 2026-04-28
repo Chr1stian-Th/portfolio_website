@@ -9,14 +9,14 @@
  * fenced ``` blocks, > quotes, - / * lists, --- rules,
  * [link text](https://...).
  */
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { parseBlocks } from '../lib/markdown.js';
 
 /** Inline tokenizer — returns an array of strings and React elements. */
-function parseInline(text, keyPrefix = 'i') {
+function parseInline(text, keyPrefix = 'i', theme = 'light') {
   const tokens = [];
   // Order matters: code first, so its inner contents aren't reparsed.
-  const pattern = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))/g;
+  const pattern = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\))/g;
   let last = 0;
   let m;
   let i = 0;
@@ -44,6 +44,15 @@ function parseInline(text, keyPrefix = 'i') {
       tokens.push(<strong key={k}>{tok.slice(2, -2)}</strong>);
     } else if (tok.startsWith('*')) {
       tokens.push(<em key={k}>{tok.slice(1, -1)}</em>);
+    } else if (tok.startsWith('![')) {
+      const im = tok.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+      if (im) {
+        const [srcLight, srcDark = srcLight] = im[2].split('|').map(s => s.trim());
+        const src = theme === 'dark' ? srcDark : srcLight;
+        tokens.push(
+          <img key={k} src={src} alt={im[1]} className="inline-block max-w-full rounded" />,
+        );
+      }
     } else if (tok.startsWith('[')) {
       const lm = tok.match(/\[([^\]]+)\]\(([^)]+)\)/);
       if (lm) {
@@ -67,8 +76,16 @@ function parseInline(text, keyPrefix = 'i') {
   return tokens;
 }
 
-export default function Markdown({ text }) {
+export default function Markdown({ text, theme = 'light' }) {
   const blocks = useMemo(() => parseBlocks(text), [text]);
+  const [lightbox, setLightbox] = useState(null); // { src, alt }
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e) => { if (e.key === 'Escape') setLightbox(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
 
   return (
     <div style={{ fontFamily: 'var(--font-serif)', color: 'var(--fg)' }}>
@@ -88,7 +105,7 @@ export default function Markdown({ text }) {
                 fontVariationSettings: '"opsz" 36',
               }}
             >
-              {parseInline(b.text, k)}
+              {parseInline(b.text, k, theme)}
             </Tag>
           );
         }
@@ -129,7 +146,7 @@ export default function Markdown({ text }) {
                 color: 'var(--fg-muted)',
               }}
             >
-              {parseInline(b.text, k)}
+              {parseInline(b.text, k, theme)}
             </blockquote>
           );
         }
@@ -147,20 +164,91 @@ export default function Markdown({ text }) {
                     className="absolute left-0 top-[0.7em] h-1 w-1 rounded-full"
                     style={{ backgroundColor: 'var(--accent)' }}
                   />
-                  {parseInline(it.text, `${k}-${j}`)}
+                  {parseInline(it.text, `${k}-${j}`, theme)}
                 </li>
               ))}
             </ul>
           );
         }
 
+        if (b.kind === 'gallery') {
+          return (
+            <div
+              key={k}
+              className="my-6 grid gap-1.5"
+              style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}
+            >
+              {b.images.map((img, j) => {
+                const src = theme === 'dark' ? img.srcDark : img.srcLight;
+                return (
+                  <button
+                    key={j}
+                    onClick={() => setLightbox({ src, alt: img.alt })}
+                    className="overflow-hidden rounded-md"
+                    style={{ aspectRatio: '1', cursor: 'zoom-in' }}
+                  >
+                    <img
+                      src={src}
+                      alt={img.alt}
+                      className="h-full w-full object-cover transition-transform duration-200 hover:scale-105"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          );
+        }
+
+        if (b.kind === 'img') {
+          const src = theme === 'dark' ? b.srcDark : b.srcLight;
+          return (
+            <figure key={k} className="my-6 text-center">
+              <img
+                src={src}
+                alt={b.alt}
+                className="mx-auto max-w-full rounded-md"
+                style={{ maxHeight: '480px', objectFit: 'contain' }}
+              />
+              {b.alt && (
+                <figcaption
+                  className="mt-2 text-sm italic"
+                  style={{ color: 'var(--fg-muted)' }}
+                >
+                  {b.alt}
+                </figcaption>
+              )}
+            </figure>
+          );
+        }
+
         // Default: paragraph
         return (
           <p key={k} className="my-4 leading-relaxed">
-            {parseInline(b.text, k)}
+            {parseInline(b.text, k, theme)}
           </p>
         );
       })}
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+          style={{ backgroundColor: 'rgba(0,0,0,0.88)', cursor: 'zoom-out' }}
+          onClick={() => setLightbox(null)}
+        >
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-h-[88vh] max-w-[90vw] rounded-lg object-contain"
+            style={{ cursor: 'default' }}
+            onClick={(e) => e.stopPropagation()}
+          />
+          {lightbox.alt && (
+            <p className="mt-3 text-sm italic" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              {lightbox.alt}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import Markdown from './Markdown.jsx';
 import { findNode } from '../lib/tree.js';
 import { generateReadme } from '../lib/readme.js';
 
-export default function ContentView({ tree, activeId, lang }) {
+export default function ContentView({ tree, activeId, lang, theme }) {
   if (!activeId) return null;
   const node = findNode(tree, activeId);
   if (!node) return null;
@@ -23,7 +23,7 @@ export default function ContentView({ tree, activeId, lang }) {
       style={{ backgroundColor: 'var(--bg)' }}
     >
       <div className="mx-auto max-w-2xl px-10 py-16">
-        <Markdown text={content} />
+        <Markdown text={content} theme={theme} />
       </div>
     </div>
   );

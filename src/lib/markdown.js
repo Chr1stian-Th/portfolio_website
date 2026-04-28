@@ -10,7 +10,10 @@
  * because it produces JSX. Keeping block parsing pure makes it easy to
  * test or reuse outside React.
  *
- * Supported block kinds: h, hr, code, quote, ul, p
+ * Supported block kinds: h, hr, code, quote, ul, img, gallery, p
+ *
+ * Gallery: two or more consecutive image lines (no blank lines between) are
+ * automatically grouped into a gallery block.
  */
 export function parseBlocks(text) {
   const lines = text.split('\n');
@@ -22,6 +25,22 @@ export function parseBlocks(text) {
 
     // Skip blank lines between blocks.
     if (line.trim() === '') { i++; continue; }
+
+    // Image(s): consecutive image lines → gallery; single line → img.
+    if (/^!\[/.test(line.trim())) {
+      const images = [];
+      while (i < lines.length) {
+        const m = lines[i].trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (!m) break;
+        const [srcLight, srcDark = srcLight] = m[2].split('|').map(s => s.trim());
+        images.push({ alt: m[1], srcLight, srcDark });
+        i++;
+      }
+      out.push(images.length === 1
+        ? { kind: 'img', ...images[0] }
+        : { kind: 'gallery', images });
+      continue;
+    }
 
     // Heading
     const h = line.match(/^(#{1,4})\s+(.+)$/);
@@ -84,7 +103,7 @@ export function parseBlocks(text) {
     while (
       i < lines.length &&
       lines[i].trim() !== '' &&
-      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```)/.test(lines[i])
+      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```|!\[)/.test(lines[i].trim())
     ) {
       buf.push(lines[i]); i++;
     }

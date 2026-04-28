@@ -20,6 +20,10 @@ I also enjoy cycling and hiking, and I am generally always up for any kind of ph
 - Beachvolleyball
 - Gym
 
+## Images
+![](/images/A7402547.JPG)
+![](/images/A7401748.JPG)
+
 ## Want to try
 
 - One day, I would especially like to go hiking in the Himalayas and experience the mountains there.
@@ -35,6 +39,9 @@ Außerdem fahre ich gerne Fahrrad und gehe wandern und grundsätzlich bin ich im
 - Handball
 - Beachvolleyball
 - Gym
+
+## Bilder
+![](/images/A7402547.JPG)
 
 ## Will ich ausprobieren
 
