@@ -44,7 +44,8 @@ export default function App() {
   const [expanded,     setExpanded]     = useState(
     new Set(folders.map((f) => f.id)),
   );
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings,  setShowSettings]  = useState(false);
+  const [sidebarOpen,   setSidebarOpen]   = useState(true);
 
   const t = i18n[lang];
 
@@ -117,6 +118,8 @@ export default function App() {
         theme={theme}
         setTheme={setTheme}
         t={t}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen((v) => !v)}
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">
