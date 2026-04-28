@@ -142,7 +142,7 @@ function Tab({
         />
       )}
       <Icon size={13} className="shrink-0" style={{ opacity: 0.8, ...(resolveIconColor(node.iconColor, theme) && { color: resolveIconColor(node.iconColor, theme) }) }} />
-      <span className="truncate">{node.name[lang]}.{ext}</span>
+      <span className="truncate">{node.name[lang]}{!node.hideExt && `.${ext}`}</span>
       <button
         onClick={(e) => { e.stopPropagation(); onClose(tab.id); }}
         className="flex h-4 w-4 shrink-0 items-center justify-center rounded transition-all"

@@ -843,5 +843,6 @@ export default {
   icon: 'terminal',
   iconColor: '#39ff14',
   name: { en: 'CLI', de: 'CLI' },
+  hideExt: true,
   component: CliPage,
 };

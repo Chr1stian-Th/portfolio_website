@@ -75,7 +75,7 @@ export default function TreeNode({
         )}
         <Icon size={14} className="shrink-0" style={{ opacity: isFolder ? 0.85 : 0.7, ...(!isActive && resolveIconColor(node.iconColor, theme) && { color: resolveIconColor(node.iconColor, theme) }) }} />
         <span className="truncate">
-          {node.name[lang]}{!isFolder && `.${ext}`}
+          {node.name[lang]}{!isFolder && !node.hideExt && `.${ext}`}
         </span>
       </button>
 

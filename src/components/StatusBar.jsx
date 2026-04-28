@@ -34,7 +34,7 @@ export default function StatusBar({ tree, activeId, lang, content }) {
           <span className="truncate">
             {path && path.length > 0 && path.map((p) => p[lang]).join(' / ') + ' / '}
             <span style={{ color: 'var(--fg-muted)' }}>
-              {node.name[lang]}.{ext}
+              {node.name[lang]}{!node.hideExt && `.${ext}`}
             </span>
           </span>
         ) : (
