@@ -10,7 +10,7 @@
  * because it produces JSX. Keeping block parsing pure makes it easy to
  * test or reuse outside React.
  *
- * Supported block kinds: h, hr, code, quote, ul, img, gallery, p
+ * Supported block kinds: h, hr, code, quote, ul, img, gallery, table, p
  *
  * Gallery: two or more consecutive image lines (no blank lines between) are
  * automatically grouped into a gallery block.
@@ -98,12 +98,24 @@ export function parseBlocks(text) {
       continue;
     }
 
+    // Table: pipe-delimited rows; second row is the separator and is skipped.
+    if (/^\|/.test(line.trim())) {
+      const tableLines = [];
+      while (i < lines.length && /^\|/.test(lines[i].trim())) {
+        tableLines.push(lines[i]); i++;
+      }
+      const parseRow = l => l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const [headerLine, /* separator */, ...rowLines] = tableLines;
+      out.push({ kind: 'table', headers: parseRow(headerLine), rows: rowLines.map(parseRow) });
+      continue;
+    }
+
     // Paragraph — collect consecutive non-blank, non-block-marker lines.
     const buf = [];
     while (
       i < lines.length &&
       lines[i].trim() !== '' &&
-      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```|!\[)/.test(lines[i].trim())
+      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```|!\[|\|)/.test(lines[i].trim())
     ) {
       buf.push(lines[i]); i++;
     }

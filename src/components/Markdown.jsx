@@ -221,6 +221,43 @@ export default function Markdown({ text, theme = 'light' }) {
           );
         }
 
+        if (b.kind === 'table') {
+          return (
+            <div key={k} className="my-6 overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    {b.headers.map((h, j) => (
+                      <th
+                        key={j}
+                        className="border-b px-4 py-2 text-left font-medium"
+                        style={{ borderColor: 'var(--border)', color: 'var(--fg)' }}
+                      >
+                        {parseInline(h, `${k}-h${j}`, theme)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.rows.map((row, ri) => (
+                    <tr key={ri}>
+                      {row.map((cell, ci) => (
+                        <td
+                          key={ci}
+                          className="border-b px-4 py-2"
+                          style={{ borderColor: 'var(--border)', color: 'var(--fg-muted)' }}
+                        >
+                          {parseInline(cell, `${k}-r${ri}c${ci}`, theme)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+
         // Default: paragraph
         return (
           <p key={k} className="my-4 leading-relaxed">
