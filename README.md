@@ -4,7 +4,7 @@ A personal portfolio website styled like an IDE / Obsidian: a file-tree
 sidebar, tabbed content area with drag-and-drop reordering, light & dark
 mode, and an English / German interface.
 
-Content lives as one JavaScript file per page — drop a file in
+Content lives as one JavaScript file per page. Drop a file in
 `src/content/entries/`, give it markdown, and it shows up in the sidebar
 with no further wiring.
 
@@ -77,24 +77,6 @@ portfolio/
         └── theme.js                # light/dark palettes, accents, fonts
 ```
 
-### Data flow
-
-1. `src/content/index.js` calls `import.meta.glob('./entries/*.js', { eager: true })`,
-   which Vite turns into an explicit static dependency at build time. Every
-   entry file's `default` export becomes a node in the tree.
-2. `App.jsx` calls `buildTree()` once on mount, then passes the tree down to
-   the sidebar, tab bar, and content view.
-3. The active theme (light/dark) and accent color are written onto the root
-   element as CSS custom properties. Every component reads them via
-   `var(--bg)`, `var(--accent)`, etc. To retune the look, edit the values in
-   `src/styles/theme.js` — no component changes needed.
-
-### State
-
-All session state lives in `App.jsx`. By design it does not persist between
-reloads. To persist, wire each `useState` initializer to read from
-`localStorage` and add a `useEffect` that writes on change.
-
 ---
 
 ## Local setup
@@ -162,15 +144,6 @@ fenced ` ``` ` blocks, `>` blockquotes, `-` / `*` lists, `---` rules, and
 
 ---
 
-## Configuring links and identity
-
-- GitHub and LinkedIn URLs: edit the constants at the top of
-  `src/components/Sidebar.jsx`.
-- Site title (browser tab): edit `<title>` in `index.html`.
-- Theme palette and accent colors: edit `src/styles/theme.js`.
-
----
-
 ## Docker
 
 The repo includes a multi-stage Dockerfile that builds the bundle with
@@ -204,8 +177,4 @@ works as-is — it listens on port 80 and serves the built site.
   `src/i18n/translations.js`.
 - The drag-and-drop tab reordering uses the native HTML5 DnD API. No
   extra dependency.
-- If you'd like more comprehensive markdown (tables, images, syntax-
-  highlighted code), swap `src/components/Markdown.jsx` for
-  [`react-markdown`](https://github.com/remarkjs/react-markdown) +
-  [`remark-gfm`](https://github.com/remarkjs/remark-gfm). The rest of
-  the app doesn't care how content is rendered.
+- I use a custom markdown renderer in `src/lib/markdown.js`, change something there if you want support for it.
