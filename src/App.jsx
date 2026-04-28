@@ -31,8 +31,12 @@ import { folders } from './content/folders.js';
 
 export default function App() {
   // ─────────────────── State ─────────────────────────────────────────────
-  const [theme,        setTheme]        = useState('dark');
-  const [lang,         setLang]         = useState('en');
+  const [theme, setTheme] = useState(
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  );
+  const [lang,         setLang]         = useState(
+    navigator.languages?.some(l => l.startsWith('de')) ? 'de' : 'en'
+  );
   const [accent,       setAccent]       = useState('terracotta');
   const [fontSize,     setFontSize]     = useState('md');
   const [openTabs,     setOpenTabs]     = useState([{ id: 'readme' }]);
