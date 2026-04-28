@@ -841,6 +841,7 @@ export default {
   folder: 'fun',
   order: 1,
   icon: 'terminal',
+  iconColor: '#39ff14',
   name: { en: 'CLI', de: 'CLI' },
   component: CliPage,
 };

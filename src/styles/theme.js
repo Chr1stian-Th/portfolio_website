@@ -28,6 +28,7 @@ export const themes = {
     '--hover-strong':  '#dcd2bc',
     '--code-bg':       '#ede7da',
     '--code-fg':       '#3d3a32',
+    '--folder-fg':     '#8a7258',
   },
   dark: {
     '--bg':            '#14130f',
@@ -42,6 +43,7 @@ export const themes = {
     '--hover-strong':  '#2a2720',
     '--code-bg':       '#1d1b16',
     '--code-fg':       '#d4cfc0',
+    '--folder-fg':     '#baa888',
   },
 };
 

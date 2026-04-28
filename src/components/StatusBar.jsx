@@ -10,6 +10,7 @@ import { findNode, getPath } from '../lib/tree.js';
 export default function StatusBar({ tree, activeId, lang, content }) {
   const path = activeId ? getPath(tree, activeId) : null;
   const node = activeId ? findNode(tree, activeId) : null;
+  const ext = node?.component ? 'jsx' : 'md';
   const wordCount = content
     ? content.trim().split(/\s+/).filter(Boolean).length
     : 0;
@@ -33,7 +34,7 @@ export default function StatusBar({ tree, activeId, lang, content }) {
           <span className="truncate">
             {path && path.length > 0 && path.map((p) => p[lang]).join(' / ') + ' / '}
             <span style={{ color: 'var(--fg-muted)' }}>
-              {node.name[lang]}.md
+              {node.name[lang]}.{ext}
             </span>
           </span>
         ) : (
@@ -41,7 +42,7 @@ export default function StatusBar({ tree, activeId, lang, content }) {
         )}
       </div>
       <div className="flex items-center gap-3">
-        <span>markdown</span>
+        <span>{ext}</span>
         <span>{lang.toUpperCase()}</span>
         {node && <span>{wordCount} {i18n[lang].words}</span>}
       </div>

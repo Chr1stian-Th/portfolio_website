@@ -14,8 +14,14 @@ import { X, FileText } from 'lucide-react';
 import { iconMap } from '../icons.js';
 import { findNode } from '../lib/tree.js';
 
+function resolveIconColor(iconColor, theme) {
+  if (!iconColor) return undefined;
+  if (typeof iconColor === 'object') return iconColor[theme];
+  return iconColor;
+}
+
 export default function TabBar({
-  tabs, activeId, tree, lang, t,
+  tabs, activeId, tree, lang, t, theme,
   onActivate, onClose, onReorder,
 }) {
   const [draggedId, setDraggedId] = useState(null);
@@ -70,6 +76,7 @@ export default function TabBar({
             isDragging={tb.id === draggedId}
             lang={lang}
             t={t}
+            theme={theme}
             onActivate={onActivate}
             onClose={onClose}
             onDragStart={() => setDraggedId(tb.id)}
@@ -92,7 +99,7 @@ export default function TabBar({
 
 /** A single tab — owns its hover state so the close button can fade in. */
 function Tab({
-  tab, tree, isActive, isDragging, lang, t,
+  tab, tree, isActive, isDragging, lang, t, theme,
   onActivate, onClose,
   onDragStart, onDragOver, onDragEnd,
 }) {
@@ -101,6 +108,7 @@ function Tab({
   const node = findNode(tree, tab.id);
   if (!node) return null;
   const Icon = (node.icon && iconMap[node.icon]) || FileText;
+  const ext = node.component ? 'jsx' : 'md';
 
   // Close button fully visible on active tab, fades in on hover otherwise.
   const closeOpacity = isActive ? 0.8 : (hovered ? 0.6 : 0);
@@ -133,8 +141,8 @@ function Tab({
           style={{ backgroundColor: 'var(--accent)' }}
         />
       )}
-      <Icon size={13} className="shrink-0" style={{ opacity: 0.8 }} />
-      <span className="truncate">{node.name[lang]}.md</span>
+      <Icon size={13} className="shrink-0" style={{ opacity: 0.8, ...(resolveIconColor(node.iconColor, theme) && { color: resolveIconColor(node.iconColor, theme) }) }} />
+      <span className="truncate">{node.name[lang]}.{ext}</span>
       <button
         onClick={(e) => { e.stopPropagation(); onClose(tab.id); }}
         className="flex h-4 w-4 shrink-0 items-center justify-center rounded transition-all"

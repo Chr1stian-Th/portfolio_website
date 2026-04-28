@@ -70,6 +70,7 @@ export default function Sidebar({
             toggleFolder={toggleFolder}
             openFile={openFile}
             activeId={activeId}
+            theme={theme}
           />
         ))}
       </div>

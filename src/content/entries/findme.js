@@ -6,6 +6,7 @@ export default {
   folder: 'projects',
   order: 1,
   icon: 'search',
+  iconColor: '#e86100',
   name: { en: 'Findme', de: 'Findme' },
   content: {
     en: `# Findme

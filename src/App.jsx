@@ -27,6 +27,7 @@ import { themes, accents, fontSizes, fonts } from './styles/theme.js';
 import { buildTree }                     from './content/index.js';
 import { findNode }                      from './lib/tree.js';
 import { generateReadme }                from './lib/readme.js';
+import { folders } from './content/folders.js';
 
 export default function App() {
   // ─────────────────── State ─────────────────────────────────────────────
@@ -37,7 +38,7 @@ export default function App() {
   const [openTabs,     setOpenTabs]     = useState([{ id: 'readme' }]);
   const [activeId,     setActiveId]     = useState('readme');
   const [expanded,     setExpanded]     = useState(
-    new Set(['projects', 'education', 'personal']),
+    new Set(folders.map((f) => f.id)),
   );
   const [showSettings, setShowSettings] = useState(false);
 
@@ -121,6 +122,7 @@ export default function App() {
           tree={tree}
           lang={lang}
           t={t}
+          theme={theme}
           onActivate={setActiveId}
           onClose={closeTab}
           onReorder={setOpenTabs}

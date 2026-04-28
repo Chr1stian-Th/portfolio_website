@@ -6,6 +6,7 @@ export default {
   folder: 'education',
   order: 2,
   icon: 'graduation',
+  iconColor: '#324ab2', 
   name: { en: "Bachelor", de: 'Bachelor' },
   content: {
     en: `# Bachelor's Degree

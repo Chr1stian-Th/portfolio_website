@@ -556,6 +556,7 @@ export default {
   folder: "fun",
   order: 2,
   icon: "bomb",
+  iconColor: { light: '#100c08' },
   name: { en: "Minesweeper", de: "Minesweeper" },
   component: MinesweeperPage,
 };

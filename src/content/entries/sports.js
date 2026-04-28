@@ -6,6 +6,7 @@ export default {
   folder: 'personal',
   order: 2,
   icon: 'activity',
+  iconColor: '#efcc00',
   name: { en: 'Sports', de: 'Sport' },
   content: {
     en: `# Sports

@@ -6,6 +6,7 @@ export default {
   folder: 'projects',
   order: 1,
   icon: 'beer',
+  iconColor: '#f59e0b',
   name: { en: 'Bierturnier', de: 'Bierturnier' },
   content: {
     en: `# Bierturnier
