@@ -18,6 +18,8 @@ go paperless or syncing my notes across devices with [Nextcloud](https://github.
 If I'm not in front of a screen, I'm probably doing some kind of sport. I enjoy a pretty wide
 mix of activities. And when the day is done, you'll either find me gaming on my PC or eating something delicious.
 
+![](public/images/20250819_160852.jpg)
+
 ## Where I am
 
 I live in Ulm, Germany
@@ -43,7 +45,9 @@ um papierfrei zu werden, oder die Synchronisation meiner Notizen über
 ich irgendeine Art von Sport.. da ist die Auswahl bei mir ziemlich bunt. Und wenn der Tag
 rum ist, zocke ich entweder am PC oder bin auf der Suche nach dem nächsten leckeren Essen.
 
-## Wo ich bin
+![](public/images/20250819_160852.jpg)
+
+## Wo ich lebe
 
 Ich lebe in Ulm, Deutschland
 

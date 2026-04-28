@@ -27,13 +27,14 @@ export function parseBlocks(text) {
     if (line.trim() === '') { i++; continue; }
 
     // Image(s): consecutive image lines → gallery; single line → img.
+    // Append {natural} after the closing paren to preserve original aspect ratio.
     if (/^!\[/.test(line.trim())) {
       const images = [];
       while (i < lines.length) {
-        const m = lines[i].trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        const m = lines[i].trim().match(/^!\[([^\]]*)\]\(([^)]+)\)(\{natural\})?$/);
         if (!m) break;
         const [srcLight, srcDark = srcLight] = m[2].split('|').map(s => s.trim());
-        images.push({ alt: m[1], srcLight, srcDark });
+        images.push({ alt: m[1], srcLight, srcDark, natural: !!m[3] });
         i++;
       }
       out.push(images.length === 1
@@ -98,6 +99,12 @@ export function parseBlocks(text) {
       continue;
     }
 
+    // Iframe embed
+    if (line.trim().startsWith('<iframe')) {
+      out.push({ kind: 'iframe', html: line.trim() });
+      i++; continue;
+    }
+
     // Table: pipe-delimited rows; second row is the separator and is skipped.
     if (/^\|/.test(line.trim())) {
       const tableLines = [];
@@ -115,7 +122,7 @@ export function parseBlocks(text) {
     while (
       i < lines.length &&
       lines[i].trim() !== '' &&
-      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```|!\[|\|)/.test(lines[i].trim())
+      !/^(#{1,4}\s|>|-{3,}$|\s*[-*]\s|```|!\[|\||<iframe)/.test(lines[i].trim())
     ) {
       buf.push(lines[i]); i++;
     }

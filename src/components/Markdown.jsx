@@ -9,11 +9,11 @@
  * fenced ``` blocks, > quotes, - / * lists, --- rules,
  * [link text](https://...).
  */
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { parseBlocks } from '../lib/markdown.js';
 
 /** Inline tokenizer — returns an array of strings and React elements. */
-function parseInline(text, keyPrefix = 'i', theme = 'light') {
+function parseInline(text, keyPrefix = 'i', theme = 'light', headingLevel = 0) {
   const tokens = [];
   // Order matters: code first, so its inner contents aren't reparsed.
   const pattern = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\))/g;
@@ -49,8 +49,11 @@ function parseInline(text, keyPrefix = 'i', theme = 'light') {
       if (im) {
         const [srcLight, srcDark = srcLight] = im[2].split('|').map(s => s.trim());
         const src = theme === 'dark' ? srcDark : srcLight;
+        const imgStyle = headingLevel > 0
+          ? { height: '1em', width: 'auto', verticalAlign: 'middle', display: 'inline-block' }
+          : undefined;
         tokens.push(
-          <img key={k} src={src} alt={im[1]} className="inline-block max-w-full rounded" />,
+          <img key={k} src={src} alt={im[1]} className="inline-block max-w-full rounded" style={imgStyle} />,
         );
       }
     } else if (tok.startsWith('[')) {
@@ -76,16 +79,59 @@ function parseInline(text, keyPrefix = 'i', theme = 'light') {
   return tokens;
 }
 
+function Gallery({ images, theme, setLightbox }) {
+  const natural = images.some(im => im.natural);
+  return (
+    <div
+      className="my-6 grid gap-1.5"
+      style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}
+    >
+      {images.map((img, j) => {
+        const src = theme === 'dark' ? img.srcDark : img.srcLight;
+        return (
+          <button
+            key={j}
+            onClick={() => setLightbox({ src, alt: img.alt, images, currentIndex: j })}
+            className="overflow-hidden rounded-md"
+            style={natural ? { cursor: 'zoom-in' } : { aspectRatio: '1', cursor: 'zoom-in' }}
+          >
+            <img
+              src={src}
+              alt={img.alt}
+              className={`w-full transition-transform duration-200 hover:scale-105 ${natural ? 'h-auto' : 'h-full object-cover'}`}
+            />
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Markdown({ text, theme = 'light' }) {
   const blocks = useMemo(() => parseBlocks(text), [text]);
-  const [lightbox, setLightbox] = useState(null); // { src, alt }
+  const [lightbox, setLightbox] = useState(null); // { src, alt, images?, currentIndex? }
+
+  const navigateLightbox = useCallback((dir) => {
+    setLightbox(prev => {
+      if (!prev?.images) return prev;
+      const count = prev.images.length;
+      const next = (prev.currentIndex + dir + count) % count;
+      const img = prev.images[next];
+      const src = theme === 'dark' ? img.srcDark : img.srcLight;
+      return { ...prev, src, alt: img.alt, currentIndex: next };
+    });
+  }, [theme]);
 
   useEffect(() => {
     if (!lightbox) return;
-    const onKey = (e) => { if (e.key === 'Escape') setLightbox(null); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setLightbox(null);
+      else if (e.key === 'ArrowRight') navigateLightbox(1);
+      else if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [lightbox]);
+  }, [lightbox, navigateLightbox]);
 
   return (
     <div style={{ fontFamily: 'var(--font-serif)', color: 'var(--fg)' }}>
@@ -105,7 +151,7 @@ export default function Markdown({ text, theme = 'light' }) {
                 fontVariationSettings: '"opsz" 36',
               }}
             >
-              {parseInline(b.text, k, theme)}
+              {parseInline(b.text, k, theme, b.level)}
             </Tag>
           );
         }
@@ -173,29 +219,12 @@ export default function Markdown({ text, theme = 'light' }) {
 
         if (b.kind === 'gallery') {
           return (
-            <div
+            <Gallery
               key={k}
-              className="my-6 grid gap-1.5"
-              style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}
-            >
-              {b.images.map((img, j) => {
-                const src = theme === 'dark' ? img.srcDark : img.srcLight;
-                return (
-                  <button
-                    key={j}
-                    onClick={() => setLightbox({ src, alt: img.alt })}
-                    className="overflow-hidden rounded-md"
-                    style={{ aspectRatio: '1', cursor: 'zoom-in' }}
-                  >
-                    <img
-                      src={src}
-                      alt={img.alt}
-                      className="h-full w-full object-cover transition-transform duration-200 hover:scale-105"
-                    />
-                  </button>
-                );
-              })}
-            </div>
+              images={b.images}
+              theme={theme}
+              setLightbox={setLightbox}
+            />
           );
         }
 
@@ -207,7 +236,7 @@ export default function Markdown({ text, theme = 'light' }) {
                 src={src}
                 alt={b.alt}
                 className="mx-auto max-w-full rounded-md"
-                style={{ maxHeight: '480px', objectFit: 'contain' }}
+                style={b.natural ? {} : { maxHeight: '480px', objectFit: 'contain' }}
               />
               {b.alt && (
                 <figcaption
@@ -258,6 +287,25 @@ export default function Markdown({ text, theme = 'light' }) {
           );
         }
 
+        if (b.kind === 'iframe') {
+          const src = b.html.match(/src="([^"]+)"/)?.[1];
+          const loading = b.html.match(/loading="([^"]+)"/)?.[1];
+          const referrerPolicy = b.html.match(/referrerpolicy="([^"]+)"/)?.[1];
+          const allowFullScreen = /allowfullscreen/i.test(b.html);
+          return (
+            <div key={k} className="my-6 overflow-hidden rounded-md" style={{ position: 'relative', height: '400px' }}>
+              <iframe
+                src={src}
+                style={{ width: '100%', height: '100%', border: 0 }}
+                allowFullScreen={allowFullScreen}
+                loading={loading}
+                referrerPolicy={referrerPolicy}
+                title="Embedded map"
+              />
+            </div>
+          );
+        }
+
         // Default: paragraph
         return (
           <p key={k} className="my-4 leading-relaxed">
@@ -272,6 +320,16 @@ export default function Markdown({ text, theme = 'light' }) {
           style={{ backgroundColor: 'rgba(0,0,0,0.88)', cursor: 'zoom-out' }}
           onClick={() => setLightbox(null)}
         >
+          {lightbox.images && (
+            <button
+              className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full text-2xl leading-none transition-colors hover:bg-white/20"
+              style={{ color: 'white', cursor: 'default' }}
+              onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+          )}
           <img
             src={lightbox.src}
             alt={lightbox.alt}
@@ -279,6 +337,16 @@ export default function Markdown({ text, theme = 'light' }) {
             style={{ cursor: 'default' }}
             onClick={(e) => e.stopPropagation()}
           />
+          {lightbox.images && (
+            <button
+              className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full text-2xl leading-none transition-colors hover:bg-white/20"
+              style={{ color: 'white', cursor: 'default' }}
+              onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          )}
           {lightbox.alt && (
             <p className="mt-3 text-sm italic" style={{ color: 'rgba(255,255,255,0.6)' }}>
               {lightbox.alt}

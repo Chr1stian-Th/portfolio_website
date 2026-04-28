@@ -44,6 +44,8 @@ Außerdem fahre ich gerne Fahrrad und gehe wandern und grundsätzlich bin ich im
 
 ## Bilder
 ![](/images/A7402547.JPG)
+![](/images/A7401748.JPG)
+![](/images/signal-2026-04-28-111038.jpeg)
 
 ## Will ich ausprobieren
 

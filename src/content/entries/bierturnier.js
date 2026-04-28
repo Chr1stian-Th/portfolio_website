@@ -9,13 +9,20 @@ export default {
   iconColor: '#f59e0b',
   name: { en: 'Bierturnier', de: 'Bierturnier' },
   content: {
-    en: `# Bierturnier
-
-*This page is intentionally blank — drop your project notes here.*
+    en: `# Bierturnier 
+![](public/images/bierturnier_lightmode.png|public/images/bierturnier.png)
+An [App](https://tournament.beer/de) developed with Friends to organize Beer Pong Tournaments with friends.
+![](public/images/bierturnier1.png){natural}
+![](public/images/bierturnier2.png){natural}
+![](public/images/bierturnier3.png){natural}
 `,
-    de: `# Bierturnier
+    de: `
+![](public/images/bierturnier_lightmode.png|public/images/bierturnier.png)
 
-*Diese Seite ist absichtlich leer — schreibe deine Projektnotizen hier rein.*
+Eine [App](https://tournament.beer/de) entwickelt mit Freunden um mit Freunden Bierpongturniere zu organisieren.
+![](public/images/bierturnier1.png){natural}
+![](public/images/bierturnier2.png){natural}
+![](public/images/bierturnier3.png){natural}
 `,
   },
 };

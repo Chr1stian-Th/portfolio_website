@@ -122,6 +122,7 @@ export default {
   folder: 'personal',        // which folder it lives in (or omit for root)
   order:  3,                 // sort order within that folder
   icon:   'compass',         // optional, key from src/icons.js
+  iconColor: '#ffffff',    // optional which color should the icon have
   name:   { en: 'Travel', de: 'Reisen' },
   content: {
     en: `# Travel\n\nA paragraph or two.`,
@@ -129,6 +130,11 @@ export default {
   },
 };
 ```
+
+!\[alt](light-image.jpg|dark-image.jpg) to add images. \
+The part before | is shown in light mode, the part after in dark mode.
+Single source images also work.
+For galleries paste the pictures one after another with one linebreak
 
 Save the file. The dev server picks it up immediately and the README's
 auto-generated listing updates.

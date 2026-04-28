@@ -15,6 +15,7 @@ export default {
 
 I studied at the **University of Ulm** between **2023** and **2026**.
 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84786.90349829163!2d9.786564863336126!3d48.38759767139919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799646998350bfd%3A0x41f6bb7a5df7d90!2sUlm!5e0!3m2!1sde!2sde!4v1777386807590!5m2!1sde!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 ## Focus
 
 - Specialization: RAG Systems, LLMs
@@ -37,6 +38,7 @@ full-stack development.
 Ich habe an der **Universität Ulm** zwischen **2023** und **2026**
 studiert.
 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84786.90349829163!2d9.786564863336126!3d48.38759767139919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799646998350bfd%3A0x41f6bb7a5df7d90!2sUlm!5e0!3m2!1sde!2sde!4v1777386807590!5m2!1sde!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 ## Schwerpunkt
 
 - Vertiefung: RAG Systeme, LLMs
