@@ -28,7 +28,10 @@
 import { folders } from './folders.js';
 
 // Vite turns this into a static dependency graph at build time.
-const entryModules = import.meta.glob('./entries/*.js', { eager: true });
+const entryModules = {
+  ...import.meta.glob('./entries/*.js',  { eager: true }),
+  ...import.meta.glob('./entries/*.jsx', { eager: true }),
+};
 
 /** Flat list of all entry objects, with `type: 'file'` filled in. */
 const entries = Object.values(entryModules)

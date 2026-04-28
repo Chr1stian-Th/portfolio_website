@@ -13,4 +13,5 @@ export const folders = [
   { id: 'projects',  order: 1, name: { en: 'Projects',  de: 'Projekte'    } },
   { id: 'education', order: 2, name: { en: 'Education', de: 'Ausbildung'  } },
   { id: 'personal',  order: 3, name: { en: 'Personal',  de: 'Persönlich' } },
+  { id: 'fun',       order: 4, name: { en: 'Fun',       de: 'Fun'}},
 ];

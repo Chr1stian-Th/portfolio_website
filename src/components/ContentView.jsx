@@ -13,6 +13,15 @@ export default function ContentView({ tree, activeId, lang, theme }) {
   const node = findNode(tree, activeId);
   if (!node) return null;
 
+  if (node.component) {
+    const Component = node.component;
+    return (
+      <div className="h-full overflow-y-auto" style={{ backgroundColor: 'var(--bg)' }}>
+        <Component lang={lang} theme={theme} />
+      </div>
+    );
+  }
+
   const content = node.dynamic === 'readme'
     ? generateReadme(tree, lang)
     : (node.content?.[lang] ?? '');

@@ -17,6 +17,7 @@ import {
   BookOpen,
   Search,
   Wrench,
+  Terminal,
 } from 'lucide-react';
 
 export const iconMap = {
@@ -31,4 +32,5 @@ export const iconMap = {
   book:       BookOpen,
   search:     Search,
   wrench:     Wrench,
+  terminal:   Terminal,
 };
