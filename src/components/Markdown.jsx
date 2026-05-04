@@ -9,7 +9,7 @@
  * fenced ``` blocks, > quotes, - / * lists, --- rules,
  * [link text](https://...).
  */
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
 import { parseBlocks } from '../lib/markdown.js';
 
 /** Inline tokenizer — returns an array of strings and React elements. */
@@ -77,6 +77,47 @@ function parseInline(text, keyPrefix = 'i', theme = 'light', headingLevel = 0) {
   }
   if (last < text.length) tokens.push(text.slice(last));
   return tokens;
+}
+
+function ScaledAscii({ text, codeStyle }) {
+  const wrapRef = useRef(null);
+  const preRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const wrap = wrapRef.current;
+      const pre = preRef.current;
+      if (!wrap || !pre) return;
+      pre.style.transform = '';
+      wrap.style.height = '';
+      const naturalW = pre.offsetWidth;
+      const naturalH = pre.offsetHeight;
+      const availW = wrap.offsetWidth;
+      const scale = Math.min(1, availW / naturalW);
+      if (scale < 1) {
+        pre.style.transform = `scale(${scale})`;
+        pre.style.transformOrigin = 'top left';
+        wrap.style.height = `${naturalH * scale}px`;
+      }
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    return () => ro.disconnect();
+  }, [text]);
+
+  return (
+    <div ref={wrapRef} className="my-5 overflow-hidden">
+      <pre
+        ref={preRef}
+        className="p-4 text-[0.85em] leading-relaxed rounded-md"
+        style={{ ...codeStyle, whiteSpace: 'pre', width: 'fit-content' }}
+      >
+        {text}
+      </pre>
+    </div>
+  );
 }
 
 function Gallery({ images, theme, setLightbox }) {
@@ -167,15 +208,19 @@ export default function Markdown({ text, theme = 'light' }) {
         }
 
         if (b.kind === 'code') {
+          const codeStyle = {
+            backgroundColor: 'var(--code-bg)',
+            color: 'var(--code-fg)',
+            fontFamily: 'var(--font-mono)',
+          };
+          if (b.lang === 'ascii') {
+            return <ScaledAscii key={k} text={b.text} codeStyle={codeStyle} />;
+          }
           return (
             <pre
               key={k}
               className="my-5 overflow-x-auto rounded-md p-4 text-[0.85em] leading-relaxed"
-              style={{
-                backgroundColor: 'var(--code-bg)',
-                color: 'var(--code-fg)',
-                fontFamily: 'var(--font-mono)',
-              }}
+              style={codeStyle}
             >
               <code>{b.text}</code>
             </pre>

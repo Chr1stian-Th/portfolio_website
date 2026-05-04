@@ -58,13 +58,14 @@ export function parseBlocks(text) {
 
     // Fenced code block
     if (line.trim().startsWith('```')) {
+      const lang = line.trim().slice(3).trim();
       i++;
       const buf = [];
       while (i < lines.length && !lines[i].trim().startsWith('```')) {
         buf.push(lines[i]); i++;
       }
       i++; // skip closing fence
-      out.push({ kind: 'code', text: buf.join('\n') });
+      out.push({ kind: 'code', lang, text: buf.join('\n') });
       continue;
     }
 
