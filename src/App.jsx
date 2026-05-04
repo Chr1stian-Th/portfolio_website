@@ -13,7 +13,7 @@
  *  change.
  * ============================================================================
  */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 
 import Sidebar        from './components/Sidebar.jsx';
 import TabBar         from './components/TabBar.jsx';
@@ -46,6 +46,26 @@ export default function App() {
   );
   const [showSettings,  setShowSettings]  = useState(false);
   const [sidebarOpen,   setSidebarOpen]   = useState(true);
+
+  const contentTouchStartX = useRef(null);
+  const contentTouchStartY = useRef(null);
+
+  const handleContentTouchStart = useCallback((e) => {
+    contentTouchStartX.current = e.touches[0].clientX;
+    contentTouchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleContentTouchEnd = useCallback((e) => {
+    if (contentTouchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - contentTouchStartX.current;
+    const dy = e.changedTouches[0].clientY - contentTouchStartY.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx > 0 && !sidebarOpen) setSidebarOpen(true);
+      if (dx < 0 && sidebarOpen) setSidebarOpen(false);
+    }
+    contentTouchStartX.current = null;
+    contentTouchStartY.current = null;
+  }, [sidebarOpen]);
 
   const t = i18n[lang];
 
@@ -122,7 +142,11 @@ export default function App() {
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
       />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div
+        className="flex flex-1 flex-col overflow-hidden"
+        onTouchStart={handleContentTouchStart}
+        onTouchEnd={handleContentTouchEnd}
+      >
         <TabBar
           tabs={openTabs}
           activeId={activeId}

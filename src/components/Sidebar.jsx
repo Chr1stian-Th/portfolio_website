@@ -5,7 +5,7 @@
  *
  * Edit the GitHub / LinkedIn URLs below to point to your own profiles.
  */
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   Sparkles, Github, Linkedin, Sun, Moon,
   Settings as SettingsIcon, FolderTree,
@@ -24,9 +24,31 @@ export default function Sidebar({
   onSettings, theme, setTheme, t,
   sidebarOpen, onToggleSidebar,
 }) {
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
+
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx > 0 && !sidebarOpen) onToggleSidebar();
+      if (dx < 0 && sidebarOpen) onToggleSidebar();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [sidebarOpen, onToggleSidebar]);
+
   return (
     <aside
       className="flex h-full shrink-0 flex-col border-r overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       style={{
         width: sidebarOpen ? 260 : 48,
         transition: 'width 200ms ease',
