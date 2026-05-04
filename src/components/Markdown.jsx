@@ -111,7 +111,7 @@ function ScaledAscii({ text, codeStyle }) {
     <div ref={wrapRef} className="my-5 overflow-hidden">
       <pre
         ref={preRef}
-        className="p-4 text-[0.85em] leading-relaxed rounded-md"
+        className="p-4 text-[0.85em] leading-tight rounded-md"
         style={{ ...codeStyle, whiteSpace: 'pre', width: 'fit-content' }}
       >
         {text}
