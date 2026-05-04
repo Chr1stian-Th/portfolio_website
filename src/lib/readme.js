@@ -58,7 +58,7 @@ export function generateReadme(tree, lang) {
 
   const asciiArt = [
     '```ascii',                 
-    '_ _ _     _                   ',
+    ' _ _ _     _                   ',
     '| | | |___| |___ ___ _____ ___ ',
     '| | | | -_| |  _| . |     | -_|',
     '|_____|___|_|___|___|_|_|_|___|',                             
